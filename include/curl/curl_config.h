@@ -1,24 +1,38 @@
 #ifndef HEADER_CURL_CONFIG_H
 #define HEADER_CURL_CONFIG_H
 
-#include "_project.h"
+#include "project_config.h"
+#include "stdint.h"
 #include "sys/socket.h"
 #include "sys/time.h"
 
-/* to remove warning*/
-extern uint16_t htons(uint16_t n);
-ssize_t send(int socket, const void *buffer, size_t length, int flags);
-size_t recv(int sockfd, void *buf, size_t len, int flags);
-int select(int nfds, fd_set *readfds, fd_set *writefds,
-                  fd_set *exceptfds, struct timeval *timeout);
-struct hostent*  gethostbyname( const char *name);
-int getpeername(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
-int getsockname(int sockfd, struct sockaddr *local_addr, socklen_t *addrlen);
-int getsockopt(int sockfd, int level, int optname,
-                      void *optval, socklen_t *optlen);
-int connect(int sockfd, const struct sockaddr *addr, unsigned int addrlen);
-int socket(int socket_family, int socket_type, int protocol);
-uint16_t ntohs(uint16_t n);
+#ifdef CONFIG_CURL_CUSTOM_SOCKET_LAYER
+	/* to remove warning*/
+	extern uint16_t htons(uint16_t n);
+	ssize_t send(int socket, const void *buffer, size_t length, int flags);
+	size_t recv(int sockfd, void *buf, size_t len, int flags);
+	int select(int nfds, fd_set *readfds, fd_set *writefds,
+					  fd_set *exceptfds, struct timeval *timeout);
+	struct hostent*  gethostbyname( const char *name);
+	int getpeername(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
+	int getsockname(
+			int sockfd, struct sockaddr *local_addr, socklen_t *addrlen);
+	int getsockopt(int sockfd, int level, int optname,
+						  void *optval, socklen_t *optlen);
+	int connect(int sockfd, const struct sockaddr *addr, unsigned int addrlen);
+	int socket(int socket_family, int socket_type, int protocol);
+	uint16_t ntohs(uint16_t n);
+
+	#define USE_BLOCKING_SOCKETS
+
+#else
+	#include <netdb.h>
+	#include <unistd.h>
+	#include <string.h>
+	#include <sys/un.h>
+	#include <fcntl.h>
+	#define HAVE_FCNTL_O_NONBLOCK 1
+#endif
 
 #define HAVE_ERRNO_H 1
 
@@ -36,9 +50,10 @@ uint16_t ntohs(uint16_t n);
 #define HAVE_SYS_TIME_H 1
 #define HAVE_SYS_SOCKET_H 1
 
-#define OS "freeRTOS"
+#ifdef CONFIG_FREE_RTOS
+	#define OS "freeRTOS"
+#endif
 
-#define USE_BLOCKING_SOCKETS
 /* The size of `int', as computed by sizeof. */
 #define SIZEOF_INT 4
 
@@ -106,7 +121,21 @@ uint16_t ntohs(uint16_t n);
 #define HAVE_MEMRCHR	1
 #define  HAVE_STRDUP	1
 #define HAVE_STRERROR_R	1
-#define HAVE_GLIBC_STRERROR_R 1
+
+#ifdef COMPILING_FOR_LINUX_HOST
+	#define HAVE_POSIX_STRERROR_R 1
+	#if __x86_64__
+		#define SIZEOF_LONG 8
+	#elif defined(__i386__)
+		#define SIZEOF_LONG 4
+	#else
+		#error "unknown arch"
+	#endif
+	#define SIZEOF_CURL_OFF_T 8
+	#define OS "linux"
+#else
+	#define HAVE_GLIBC_STRERROR_R 1
+#endif
 
 #define CURL_SOCKET_HASH_TABLE_SIZE 97
 

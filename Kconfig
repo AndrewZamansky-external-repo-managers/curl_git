@@ -1,5 +1,10 @@
 #
 
+config  CURL_USE_UNIX_SOCKETS
+	bool   "use unix style sockets"
+	default n
+
+
 menu "curl protocols support selection"
 
 config  CURL_HTTP_PROTOCOL_SUPPORT
@@ -127,11 +132,20 @@ config  CURL_USE_WOLFSSL
 
 endchoice
 
+menuconfig  CURL_USE_CA_BUNDLE
+	bool   "use ca bundle file"
+
+config  CURL_CA_BUNDLE_FILE
+	string "ca bundle file"
+	depends on CURL_USE_CA_BUNDLE
+	default ""
+
+
 config  CURL_USE_NGHTTP2
 	bool   "use nghttp2"
 	select INCLUDE_NGHTTP2
 	default n
 
-config CURL_GIT_COMMIT_HASH
+config CURL_GIT_MANAGER_COMMIT_HASH
 	string "curl git commit hash"
 	default ""
