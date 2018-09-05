@@ -3,27 +3,15 @@
 
 #include "project_config.h"
 #include "stdint.h"
-#include "sys/socket.h"
 #include "sys/time.h"
 
-#ifdef CONFIG_CURL_CUSTOM_SOCKET_LAYER
-	/* to remove warning*/
-	extern uint16_t htons(uint16_t n);
-	ssize_t send(int socket, const void *buffer, size_t length, int flags);
-	size_t recv(int sockfd, void *buf, size_t len, int flags);
-	int select(int nfds, fd_set *readfds, fd_set *writefds,
-					  fd_set *exceptfds, struct timeval *timeout);
-	struct hostent*  gethostbyname( const char *name);
-	int getpeername(int sockfd, struct sockaddr *addr, socklen_t *addrlen);
-	int getsockname(
-			int sockfd, struct sockaddr *local_addr, socklen_t *addrlen);
-	int getsockopt(int sockfd, int level, int optname,
-						  void *optval, socklen_t *optlen);
-	int connect(int sockfd, const struct sockaddr *addr, unsigned int addrlen);
-	int socket(int socket_family, int socket_type, int protocol);
-	uint16_t ntohs(uint16_t n);
 
-	#define USE_BLOCKING_SOCKETS
+#ifdef CONFIG_CURL_CUSTOM_SOCKET_LAYER
+
+	#include "sys/socket.h"
+
+	#define HAVE_SETSOCKOPT_SO_NONBLOCK
+//	#define USE_BLOCKING_SOCKETS
 
 #else
 	#include <netdb.h>
@@ -31,7 +19,10 @@
 	#include <string.h>
 	#include <sys/un.h>
 	#include <fcntl.h>
+	#include <sys/socket.h>
 	#define HAVE_FCNTL_O_NONBLOCK 1
+	#define HAVE_SYS_SOCKET_H 1
+
 #endif
 
 #define HAVE_ERRNO_H 1
@@ -48,7 +39,6 @@
 
 #define HAVE_STRUCT_TIMEVAL 1
 #define HAVE_SYS_TIME_H 1
-#define HAVE_SYS_SOCKET_H 1
 
 #ifdef CONFIG_FREE_RTOS
 	#define OS "freeRTOS"

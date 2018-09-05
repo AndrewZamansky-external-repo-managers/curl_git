@@ -56,6 +56,10 @@ ifeq ($(strip $(CONFIG_INCLUDE_CURL)),y)
     #DEFINES += DEBUG_HTTP2
     #DEFINES += DEBUGBUILD
 
+    ifeq ($(strip $(CONFIG_CURL_CUSTOM_SOCKET_LAYER)),y)
+        DEFINES += USE_CUSTOM_SOCKET_IN_COMPILED_MODULE
+    endif
+
     ifeq ($(strip $(CONFIG_CURL_USE_CUSTOM_CURL_CONFIG_H)),y)
         DEFINES += HAVE_CONFIG_H
     endif
