@@ -6,13 +6,15 @@
 #include "sys/time.h"
 
 
-#ifdef CONFIG_CURL_CUSTOM_SOCKET_LAYER
+#ifdef CONFIG_CUSTOM_SOCKET_LAYER
 
 	#include "sys/socket.h"
 
 	#define HAVE_SETSOCKOPT_SO_NONBLOCK
-//	#define USE_BLOCKING_SOCKETS
-
+	#if defined(COMPILING_FOR_LINUX_HOST)
+		#include <unistd.h>
+	#endif
+	#define HAVE_CLOSESOCKET 1
 #else
 	#include <netdb.h>
 	#include <unistd.h>
@@ -20,8 +22,10 @@
 	#include <sys/un.h>
 	#include <fcntl.h>
 	#include <sys/socket.h>
-	#define HAVE_FCNTL_O_NONBLOCK 1
-	#define HAVE_SYS_SOCKET_H 1
+	#include <sys/socket.h>
+	#define HAVE_FCNTL_O_NONBLOCK  1
+	#define HAVE_SYS_SOCKET_H  1
+	#define HAVE_NETINET_TCP_H  1
 
 #endif
 

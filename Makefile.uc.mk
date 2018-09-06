@@ -30,7 +30,7 @@ ifeq ($(strip $(CONFIG_INCLUDE_CURL)),y)
     # the same as required by application
     CURR_GIT_REPO_DIR :=$(CURL_PATH)
     CURR_GIT_COMMIT_HASH_VARIABLE :=CURL_GIT_COMMIT_HASH
-    CURR_GIT_BUNDLE :=$(CURR_COMPONENT_DIR)/curl.bundle
+    #CURR_GIT_BUNDLE :=$(CURR_COMPONENT_DIR)/curl.bundle
     include $(MAKEFILES_ROOT_DIR)/_include_functions/git_prebuild_repo_check.mk
     
     DUMMY := $(call ADD_TO_GLOBAL_INCLUDE_PATH , $(CURL_PATH)/include/curl)
@@ -51,12 +51,11 @@ ifeq ($(strip $(CONFIG_INCLUDE_CURL)),y)
 
 
     DEFINES += CURL_STATICLIB
-    DEFINES += TCP_NODELAY
 
     #DEFINES += DEBUG_HTTP2
     #DEFINES += DEBUGBUILD
 
-    ifeq ($(strip $(CONFIG_CURL_CUSTOM_SOCKET_LAYER)),y)
+    ifeq ($(strip $(CONFIG_CUSTOM_SOCKET_LAYER)),y)
         DEFINES += USE_CUSTOM_SOCKET_IN_COMPILED_MODULE
     endif
 
