@@ -280,6 +280,13 @@ ifeq ($(strip $(CONFIG_INCLUDE_CURL)),y)
         ifeq ($(strip $(CONFIG_WOLFSSL_HAVE_ALPN)),y)
             DEFINES += HAVE_ALPN
         endif
+        ifeq ($(strip $(CONFIG_CUSTOM_SOCKET_LAYER)),y)
+            DEFINES += USE_WINDOWS_API
+            DEFINES += SINGLE_THREADED
+        endif
+        ifeq ($(strip $(CONFIG_WOLFSSL_DONT_USE_FILESYSTEM)),y)
+            DEFINES += NO_FILESYSTEM
+        endif
     endif
 
 
