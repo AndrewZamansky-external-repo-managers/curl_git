@@ -265,7 +265,7 @@ ifeq ($(strip $(CONFIG_INCLUDE_CURL)),y)
     ifeq ($(strip $(CONFIG_CURL_USE_OPENSSL)),y)
         SRC += lib/vtls/openssl.c
         SRC += lib/hostcheck.c
-        DEFINES += $(filter OPENSSL%, $(GLOBAL_INCLUDE_DIR))
+        DEFINES += $(filter OPENSSL%, $(GLOBAL_INCLUDE_DIR))# az:what is this ?
     endif
 
 
@@ -277,6 +277,9 @@ ifeq ($(strip $(CONFIG_INCLUDE_CURL)),y)
         DEFINES += HAVE_CYASSL_ERROR_SSL_H
         INCLUDE_DIR +=$(WOLFSSL_PATH)
         SRC += lib/vtls/cyassl.c
+        ifeq ($(strip $(CONFIG_WOLFSSL_HAVE_ALPN)),y)
+            DEFINES += HAVE_ALPN
+        endif
     endif
 
 
