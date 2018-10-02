@@ -27,9 +27,9 @@ ifeq ($(findstring WINDOWS,$(COMPILER_HOST_OS)),WINDOWS)
 endif
 
 
-
-INCLUDE_DIR +=$(CURR_COMPONENT_DIR)/include
-INCLUDE_DIR +=$(CURR_COMPONENT_DIR)/include/curl
+# CURR_COMPONENT_DIR is pointing to parent directory
+INCLUDE_DIR +=$(CURR_COMPONENT_DIR)/curl_git/include
+INCLUDE_DIR +=$(CURR_COMPONENT_DIR)/curl_git/include/curl
 INCLUDE_DIR +=$(CURL_PATH)/include
 INCLUDE_DIR +=$(AUTO_GENERATED_FILES_DIR)
 
