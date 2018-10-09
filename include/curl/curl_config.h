@@ -120,14 +120,26 @@
 	#define HAVE_POSIX_STRERROR_R 1
 	#if __x86_64__
 		#define SIZEOF_LONG 8
+		#define SIZEOF_CURL_OFF_T 8
 	#elif defined(__i386__)
 		#define SIZEOF_LONG 4
+		#define SIZEOF_CURL_OFF_T 4
 	#else
 		#error "unknown arch"
 	#endif
-	#define SIZEOF_CURL_OFF_T 8
 	#define OS "linux"
 #else
+	#if defined(CONFIG_CORTEX_M4)
+		#define SIZEOF_LONG 4
+		#define SIZEOF_CURL_OFF_T 4
+		#define SIZEOF_LONG_LONG  8
+		#if defined(CONFIG_I94XXX)// defined in BSP nvttypes.h
+			#undef FALSE
+			#define FALSE 0
+			#undef TRUE
+			#define TRUE 1
+		#endif
+	#endif
 	#define HAVE_GLIBC_STRERROR_R 1
 #endif
 

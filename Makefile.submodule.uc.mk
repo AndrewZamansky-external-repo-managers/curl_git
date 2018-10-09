@@ -18,6 +18,7 @@ CURR_GIT_COMMIT_HASH_VARIABLE :=CURL_GIT_COMMIT_HASH
 include $(MAKEFILES_ROOT_DIR)/_include_functions/git_prebuild_repo_check.mk
 
 DUMMY := $(call ADD_TO_GLOBAL_INCLUDE_PATH , $(CURL_PATH)/include/curl)
+DUMMY := $(call ADD_TO_GLOBAL_INCLUDE_PATH , $(CURL_PATH)/include)
 
 ifeq ($(findstring WINDOWS,$(COMPILER_HOST_OS)),WINDOWS)
     ifeq ($(strip $(CONFIG_MICROSOFT_COMPILER)),y)
@@ -249,12 +250,14 @@ INCLUDE_DIR +=$(CURL_PATH)/lib
 ifeq ($(strip $(CONFIG_CURL_USE_OPENSSL)),y)
     SRC += lib/vtls/openssl.c
     SRC += lib/hostcheck.c
-    DEFINES += $(filter OPENSSL%, $(GLOBAL_INCLUDE_DIR))# az:what is this ?
+    DEFINES += $(filter OPENSSL%, $(GLOBAL_DEFINES))
 endif
 
 
 ifeq ($(strip $(CONFIG_CURL_USE_NGHTTP2)),y)
     SRC += lib/http2.c
+    INCLUDE_DIR +=$(NGHTTP2_PATH)/lib/includes
+    INCLUDE_DIR +=$(NGHTTP2_GIT_MANAGER_PATH)/includes
 endif
 
 ifeq ($(strip $(CONFIG_CURL_USE_WOLFSSL)),y)
