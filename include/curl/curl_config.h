@@ -6,7 +6,7 @@
 #include "sys/time.h"
 
 
-#ifdef CONFIG_CUSTOM_SOCKET_LAYER
+#ifdef CONFIG_USE_INTERNAL_SOCKETS_IMPLEMENTATION
 
 	#include "sys/socket.h"
 
