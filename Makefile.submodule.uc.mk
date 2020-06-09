@@ -22,8 +22,8 @@ DUMMY := $(call ADD_TO_GLOBAL_INCLUDE_PATH , $(CURL_PATH)/include)
 
 ifeq ($(findstring WINDOWS,$(COMPILER_HOST_OS)),WINDOWS)
     ifeq ($(strip $(CONFIG_MICROSOFT_COMPILER)),y)
-        DUMMY := $(call ADD_TO_GLOBAL_LIBRARIES , Ws2_32.lib )
-        DUMMY := $(call ADD_TO_GLOBAL_LIBRARIES_PATH , var )
+        DUMMY := $(call ADD_TO_GLOBAL_LIBS , Ws2_32.lib )
+        DUMMY := $(call ADD_TO_GLOBAL_LIBS_PATH , var )
     endif
 endif
 
