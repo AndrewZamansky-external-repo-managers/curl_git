@@ -34,6 +34,9 @@ INCLUDE_DIR +=$(CURR_COMPONENT_DIR)/curl_git/include/curl
 INCLUDE_DIR +=$(CURL_PATH)/include
 INCLUDE_DIR +=$(AUTO_GENERATED_FILES_DIR)
 
+# following macro was added from some gcc version (at least from 9.2)
+# defining it will open typdefs like ulong
+DEFINES += _GNU_SOURCE
 
 DEFINES += CURL_STATICLIB
 
