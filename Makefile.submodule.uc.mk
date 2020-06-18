@@ -129,6 +129,10 @@ ifeq ($(strip $(CONFIG_CURL_USE_WOLFSSL)),y)
     DEFINES += USE_CYASSL
 endif
 
+ifeq ($(strip $(CONFIG_CURL_USE_MBEDTLS)),y)
+    DEFINES += USE_MBEDTLS
+endif
+
 ifeq ($(strip $(CONFIG_CURL_USE_NGHTTP2)),y)
     DEFINES += USE_NGHTTP2
 endif
@@ -276,6 +280,16 @@ ifeq ($(strip $(CONFIG_CURL_USE_WOLFSSL)),y)
     endif
     ifeq ($(strip $(CONFIG_WOLFSSL_DONT_USE_FILESYSTEM)),y)
         DEFINES += NO_FILESYSTEM
+    endif
+endif
+
+
+ifeq ($(strip $(CONFIG_CURL_USE_MBEDTLS)),y)
+    INCLUDE_DIR +=$(MBEDTLS)/include
+    SRC += lib/vtls/mbedtls.c
+    ifeq ($(strip $(CONFIG_USE_INTERNAL_SOCKETS_IMPLEMENTATION)),y)
+        DEFINES += USE_WINDOWS_API
+        DEFINES += SINGLE_THREADED
     endif
 endif
 

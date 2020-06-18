@@ -130,6 +130,9 @@ config  CURL_USE_WOLFSSL
 	select WOLFSSL_MD5
 	select INCLUDE_WOLFSSL
 
+config  CURL_USE_MBEDTLS
+	bool   "use mbedtls"
+
 endchoice
 
 menuconfig  CURL_USE_CA_BUNDLE
