@@ -9,6 +9,7 @@
 #ifdef CONFIG_USE_INTERNAL_SOCKETS_IMPLEMENTATION
 
 	#include "sys/socket.h"
+	#include "sys/netdb.h"
 
 	#define HAVE_SETSOCKOPT_SO_NONBLOCK
 	#if defined(COMPILING_FOR_LINUX_HOST)
