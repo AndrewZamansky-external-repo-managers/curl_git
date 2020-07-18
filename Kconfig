@@ -144,6 +144,15 @@ config  CURL_CA_BUNDLE_FILE
 	depends on CURL_USE_CA_BUNDLE
 	default ""
 
+menuconfig  CURL_USE_CA_PATH
+	bool   "use ca path"
+
+config  CURL_CA_PATH
+	string "ca path"
+	depends on CURL_USE_CA_PATH
+	default ""
+
+
 
 config  CURL_USE_NGHTTP2
 	bool   "use nghttp2"

@@ -117,6 +117,15 @@
 #define  HAVE_STRDUP	1
 #define HAVE_STRERROR_R	1
 
+#if defined(__gnu_linux__)
+    #define HAVE_STDBOOL_H
+    #define HAVE_BOOL_T
+#else
+	#error "add bool support. make sure it not \
+				conflicting with bool in other libs(like in mbedtls there is \
+						 include for stdbool.h ) "
+#endif
+
 #ifdef COMPILING_FOR_LINUX_HOST
 	#define HAVE_POSIX_STRERROR_R 1
 	#if __x86_64__
