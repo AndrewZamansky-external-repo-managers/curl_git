@@ -117,7 +117,7 @@
 #define  HAVE_STRDUP	1
 #define HAVE_STRERROR_R	1
 
-#if defined(__gnu_linux__)
+#if defined(__gnu_linux__) || (__GNUC__ >= 9)
     #define HAVE_STDBOOL_H
     #define HAVE_BOOL_T
 #else
